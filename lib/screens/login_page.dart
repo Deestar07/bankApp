@@ -35,19 +35,19 @@ class _LoginPageState extends State<LoginPage> {
       drawer: const Drawer(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15, 50, 15, 25),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:  [
-          SizedBox(
-            width: 150.0,
-            height: 45,
-            child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
                 foregroundColor: Colors.black,
               ),
               onPressed: () {},
               child:  const Text('SIGN IN'),
+    child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children:  [
+    SizedBox(
+    width: 150.0,
+    height: 45,
+    child: ElevatedButton(
             ),
           ),
     SizedBox(

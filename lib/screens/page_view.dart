@@ -41,13 +41,13 @@ class _CustomPageViewState extends State<CustomPageView> {
           itemCount: _pages.length,
           itemBuilder: (BuildContext context, int index){
             return _pages[index % _pages.length];
-          },
-        ),
-
-        Positioned(
           bottom: 0,
           left: 0,
           right: 0,
+  },
+  ),
+
+  Positioned(
           height: 50,
           child: Container(
             color: Colors.black54,
