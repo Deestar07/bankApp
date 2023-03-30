@@ -1,36 +1,22 @@
+import 'package:bank_app/presentation/screens/onboarding/cards/card_one.dart';
 import 'package:flutter/material.dart';
-import 'card_one.dart';
-import 'card_three.dart';
-import 'card_two.dart';
-import 'package:bank_app/main.dart';
-class CustomPageView extends StatefulWidget {
-  const CustomPageView({Key? key}) : super(key: key);
+import 'cards/card_three.dart';
+import 'cards/card_two.dart';
+
+class OnboardingView extends StatefulWidget {
+  const OnboardingView({Key? key}) : super(key: key);
 
   @override
-  State<CustomPageView> createState() => _CustomPageViewState();
+  State<OnboardingView> createState() => _OnboardingViewState();
 }
 
-class _CustomPageViewState extends State<CustomPageView> {
-  //declare and initialise the page controller
-  final PageController _pageController = PageController(initialPage: 0);
-
-  //the index of the current page
-
-  int _activePage = 0;
-
-  final List<Widget> _pages = [
-    const CardOne(),
-    const CardTwo(),
-    const CardThree()
-  ];
+class _OnboardingViewState extends State<OnboardingView> {
 
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
       children: [
-
         PageView.builder(
           controller : _pageController,
           onPageChanged: (int page) {
@@ -56,14 +42,14 @@ class _CustomPageViewState extends State<CustomPageView> {
               children: List<Widget>.generate(
                 _pages.length,
                   (index) =>  Padding(
-                      padding: EdgeInsets.symmetric(horizontal:10),
+                      padding: const EdgeInsets.symmetric(horizontal:10),
                       child: InkWell(
                       onTap: () {
                         _pageController.animateToPage(index,
                             duration: const Duration(milliseconds: 300),
                             curve: Curves.easeIn);
                       },
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 8,
                           backgroundColor: Colors.white,
                         ),
@@ -77,4 +63,15 @@ class _CustomPageViewState extends State<CustomPageView> {
       ),
     );
   }
+
+
+  int _activePage = 0;
+
+  final PageController _pageController = PageController(initialPage: 0);
+
+  final List<Widget> _pages = [
+    const CardOne(),
+    const CardTwo(),
+    const CardThree()
+  ];
 }

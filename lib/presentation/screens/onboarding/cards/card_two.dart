@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:bank_app/screens/page_view.dart';
 
-import 'login_page.dart';
+import '../../auth/auth_view.dart';
 class CardTwo extends StatelessWidget {
   const CardTwo({Key? key}) : super(key: key);
 
@@ -59,7 +58,7 @@ class CardTwo extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                  const LoginPage()));
+                                  const AuthView()));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.yellowAccent,

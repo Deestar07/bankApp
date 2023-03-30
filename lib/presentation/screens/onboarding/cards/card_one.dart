@@ -1,20 +1,19 @@
+import 'package:bank_app/presentation/screens/auth/auth_view.dart';
 import 'package:flutter/material.dart';
-
-import 'login_page.dart';
-class CardThree extends StatelessWidget {
-  const CardThree({Key? key}) : super(key: key);
-
+class CardOne extends StatelessWidget {
+  const CardOne({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           Container(
+
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/images/lady3.jpg"),
+                      image: AssetImage("assets/images/bankthree.jpg"),
                       fit: BoxFit.cover
                   ))),
 
@@ -44,7 +43,7 @@ class CardThree extends StatelessWidget {
                     const Padding(
                       padding:EdgeInsets.fromLTRB(80, 100, 80, 40),
 
-                      child: Text('Make transactions without logging into the app',
+                      child: Text('Welcome to the home of convenient banking',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -53,14 +52,13 @@ class CardThree extends StatelessWidget {
                     SizedBox(
                       width: 200.0,
                       child: ElevatedButton(
-                         onPressed: () {
-                           Navigator.push(
-                           context,
-                           MaterialPageRoute(
-                            builder: (context) =>
-                                const LoginPage()));
-                             },
-
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AuthView()));
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.yellowAccent,
                           foregroundColor: Colors.black,
@@ -69,6 +67,7 @@ class CardThree extends StatelessWidget {
                           ),
                         ),
                         child:  const Text('ENTER HERE'),
+
                       ),
                     ),
                   ],
@@ -79,15 +78,13 @@ class CardThree extends StatelessWidget {
         ],
       ),
     );
-
-
-
-
-
-
-
-
   }
 }
+
+
+
+
+
+
 
 
