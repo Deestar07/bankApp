@@ -68,9 +68,10 @@ class HttpService {
   getHeaders() async {
     // SharedPreferences prefs = await SharedPreference.getInstance();
     // Object? accessToken = prefs.get('token');
-    // return <String, String>{
-    //   'Content-Type': 'application/json; charset=UTF-8',
-    //   "Authorization": "Bearer $accessToken"
-    // };
+    return <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+      // ,
+      // "Authorization": "Bearer $accessToken"
+    };
   }
 }

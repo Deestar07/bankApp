@@ -11,6 +11,7 @@ class AuthService {
     try {
       final result = await http.post(Paths.login, payload);
       if (result is ErrorModel) {
+        print('ERROR::: ${result.error}');
         var data = result.error;
         return ErrorModel(data);
       }
