@@ -11,10 +11,12 @@ class EntryField extends StatelessWidget {
   final bool shouldDisable;
 
   const EntryField(
-      {Key? key, this.labelText = '',
+      {Key? key,
+        this.labelText = '',
       this.hintText = '',
       this.textInputType = TextInputType.text,
       this.showSuffixIcon = false,
+
       required this.onTextChanged,
       this.isObscureText = false,
         this.shouldDisable = false
@@ -43,7 +45,9 @@ class EntryField extends StatelessWidget {
               .copyWith(color: Colors.grey),
           obscureText: isObscureText == true ? true : false,
           onChanged: (String? value) {
-            // onTextChanged.call(value?.orEmpty());
+           if(value != null) {
+             onTextChanged.call(value);
+           }
           },
           enabled: !shouldDisable,
           keyboardType: textInputType,

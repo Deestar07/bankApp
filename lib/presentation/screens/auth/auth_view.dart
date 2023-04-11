@@ -1,9 +1,15 @@
+import 'package:bank_app/data/model/auth/payload/login_payload.dart';
+import 'package:bank_app/data/model/auth/payload/signup_payload.dart';
 import 'package:bank_app/presentation/components/widgets/colorButton.dart';
 import 'package:bank_app/presentation/components/widgets/textField.dart';
+import 'package:bank_app/presentation/screens/auth/auth_view_model.dart';
 import 'package:bank_app/presentation/utils.dart';
 import 'package:bank_app/presentation/values/colors.dart';
 import 'package:bank_app/presentation/values/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 class AuthView extends StatefulWidget {
   const AuthView({Key? key}) : super(key: key);
@@ -15,8 +21,18 @@ class AuthView extends StatefulWidget {
 class _AuthViewState extends State<AuthView> {
 
   bool isLoginActive = true;
+  // TextEditingController signUpEmail = TextEditingController();
+  // TextEditingController signUpPassword = TextEditingController();
+  // TextEditingController signUpUsername = TextEditingController();
+  //
+  // TextEditingController signInUsername = TextEditingController();
+  // TextEditingController signInPassword = TextEditingController();
+
+  String signInUsername = '',signInPassword = '', signUpEmail = '', signUpPassword = '',signUpUsername= '';
+
   @override
   Widget build(BuildContext context) {
+    AuthViewModel model = context.watch<AuthViewModel>();
     return SafeArea(
       child: Scaffold(
         drawer: Drawer(child: Container(color: Colors.blueAccent,)),
@@ -28,7 +44,7 @@ class _AuthViewState extends State<AuthView> {
             Column(
                 children: [
                   _appBar(),
-                  _layoutTab(),
+                  _layoutTab(model),
                 ]),
           ],
         ),
@@ -36,7 +52,6 @@ class _AuthViewState extends State<AuthView> {
       ),
     );
   }
-
 
   _background(){
     return Container(
@@ -92,34 +107,35 @@ class _AuthViewState extends State<AuthView> {
       ),
     );
   }
-  _layoutTab(){
+  _layoutTab(AuthViewModel model){
     return Container(
         padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(10)
+      child: Expanded(
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _tabItem('Login',isLoginActive),
+                  _tabItem('SignUp', !isLoginActive)
+                ],
+              ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _tabItem('Login',isLoginActive),
-                _tabItem('SignUp', !isLoginActive)
-              ],
-            ),
-          ),
-          Utils.vSpace(),
-          Utils.vSpace(),
-          isLoginActive
-              ? _loginLayout()
-              : _registerLayout()
-        ],
+            Utils.vSpace(),
+            Utils.vSpace(),
+            isLoginActive
+                ? _loginLayout(model)
+                : _registerLayout(model)
+          ],
+        ),
       )
     );
   }
-
   _tabItem(String title,bool isActive){
     return InkWell(
       onTap: (){
@@ -151,45 +167,93 @@ class _AuthViewState extends State<AuthView> {
       ),
     );
   }
-
-  _loginLayout(){
+  _loginLayout(AuthViewModel model){
     return Column(
       children: [
         EntryField(
-            textInputType: TextInputType.phone,
-            labelText: 'Login',
+            labelText: StringClass.loginLowerCase,
             shouldDisable: false,
-            onTextChanged: (String value) {},
+            onTextChanged: (String value) {
+              print('CHANGED_VALUE :: $value');
+            signInUsername = value;
+            },
             hintText: 'Enter your login'),
 
         EntryField(
-            textInputType: TextInputType.phone,
+            textInputType: TextInputType.visiblePassword,
             labelText: 'Password',
             shouldDisable: false,
             onTextChanged: (String value) {
+              signInPassword = value;
               // _viewModel!.onNext(PhoneNumberEntered(value));
             },
             hintText: 'Enter your password'),
         _rememberLayout(),
-        const ColorButton('Continue'),
+        ColorButton('Continue', onclick: (){
+          print('VALUE ::: $signInUsername, $signInPassword');
+          if(signInUsername.isNotEmpty && signInPassword.isNotEmpty){
+            model.login(context, LoginPayload(userLogin: signInUsername, userPassword: signInPassword));
+          } else {
+            Fluttertoast.showToast(
+                msg: "Fill all empty fields",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0 );
+          }
+        },),
+
+
       ],
     );
   }
-
-  _registerLayout(){
+  _registerLayout(AuthViewModel model){
     return Column(
       children: [
         EntryField(
-            textInputType: TextInputType.phone,
-            labelText: 'Account Number',
+
+            labelText: 'Username',
             shouldDisable: false,
-            onTextChanged: (String value) {},
-            hintText: 'Enter your Account Number'),
-        Utils.vSpace(),
-        const ColorButton('Continue'),
+            onTextChanged: (String value) {
+              signUpUsername = value;
+            },
+            hintText: 'Enter Username'),
+        EntryField(
+
+            labelText: 'Email Address',
+            shouldDisable: false,
+            onTextChanged: (String value) {
+              signUpEmail = value;
+            },
+            hintText: 'Enter Email address'),
+
+        EntryField(
+            labelText: 'Password',
+            shouldDisable: false,
+            onTextChanged: (String value) {
+              signUpPassword = value;
+            },
+            hintText: 'Enter your password'),
+        ColorButton('Continue', onclick: (){
+          if(signUpUsername.isNotEmpty && signUpEmail.isNotEmpty && signUpPassword.isNotEmpty){
+            model.signUp(context, SignupPayload(username: signUpUsername,email: signUpEmail, password: signUpPassword));
+          }else{
+            Fluttertoast.showToast(
+                msg: "Fill empty fields",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0
+            );
+          }
+        }
+        ),
       ],
     );
   }
-
 
 }
